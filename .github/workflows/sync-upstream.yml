@@ -1,0 +1,18 @@
+name: 🚰 Sync Upstream
+on:
+  workflow_dispatch:
+  schedule:
+   # every hour
+  - cron: '0 * * * *'
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Sync upstream
+      run: |
+        git checkout -b upstream
+        git remote add upstream https://github.com/lyft/cartography
+        git fetch upstream master
+        git reset --hard upstream/master
+        git push origin upstream
